@@ -10,3 +10,4 @@ const productId = '27193559-5355-49b9-ba53-09f947d91964';
     .then((response) => response.json())
     .then((data) => console.log("Response:", data))
     .catch((err) => console.error("error : ", err));
+    

@@ -18,3 +18,4 @@ fetch(`http://localhost:8000/cart/${data.id}`, {
   .then((response) => response.json())
   .then((data) => console.log(data))
   .catch((err) => console.error("error : ", err));
+  

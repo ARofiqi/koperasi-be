@@ -19,3 +19,4 @@ fetch(`http://localhost:8000/product/:id`, {
   .then((response) => response.json())
   .then((data) => console.log(data))
   .catch((err) => console.error("error : ", err));
+  
