@@ -1,16 +1,15 @@
 const { v4: uuidv4 } = require('uuid');
 
 const postdata = {
-  id: "fs120",
-  name: "chiken fiesta",
-  price: 5000,
+  id: uuidv4(),
+  name: "PIZZA",
+  price: 10000,
   category: "makanan",
   detail: "Terbuat dari sabun pilihan yang murni",
   rating: 4.5,
-  uuid: uuidv4()
 };
 
-fetch(`http://localhost:8000/product/`, {
+fetch(`http://localhost:8000/product/:id`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -20,3 +19,4 @@ fetch(`http://localhost:8000/product/`, {
   .then((response) => response.json())
   .then((data) => console.log(data))
   .catch((err) => console.error("error : ", err));
+  

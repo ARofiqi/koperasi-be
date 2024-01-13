@@ -34,18 +34,45 @@ router.get('/product/:id', (req,res) => {
           console.error('Error fetching product', error);
           res.status(500).json({message: 'Internal Server Error'});
       } else if (results.length === 0) {
-          res.status(404).json({message: 'product not found'});
+        res.status(404).json({message: 'product not found'});
+      } else {
+        res.json(results);
+      }
+    });
+  });
+  
+//END POINT CART
+router.get("/cart", (req, res) => {
+  db.query('SELECT * FROM cart', (error, results) => {
+    if (error) {
+            console.error('Error fetching cart', error);
+            res.status(500).json({message: 'Internal Server Error'});
+        } else{
+            res.json(results)
+        }
+  });
+});
+  
+router.get('/cart/:id', (req,res) => {
+  const cartId = req.params.id;
+  db.query('SELECT * FROM cart WHERE id = ?', [cartId], (error, results) => {
+      if (error) {
+          console.error('Error fetching cart', error);
+          res.status(500).json({message: 'Internal Server Error'});
+      } else if (results.length === 0) {
+          res.status(404).json({message: 'cart not found'});
       } else {
           res.json(results);
       }
   });
 });
 
+//METHOD POST
 //POST PRODUCT
-router.post('/product', (req, res) => {
-  const {id, name, price , category, detail, rating, uuid } = req.body;
-  db.query('INSERT INTO product (id, name, price, category, detail, rating, uuid) VALUES (?, ?, ?, ?, ?, ?,?)',
-      [id, name, price, category, detail, rating, uuid], (error) => {
+router.post('/product/:id', (req, res) => {
+  const {id, name, price, category, detail, rating} = req.body;
+  db.query('INSERT INTO product (id, name, price, category, detail, rating) VALUES (?, ?, ?, ?, ?, ?)',
+      [id, name, price, category, detail, rating], (error) => {
           if (error) {
               console.error('Error creating product:', error);
               response(500,"ERROR", "User can't get list", res);
@@ -55,11 +82,26 @@ router.post('/product', (req, res) => {
       });
 });
 
-router.put('product/:id', (req,res) => {
+//POST CART
+router.post('/cart/:id', (req, res) => {
+  const {id, name, price , quantity, totalHarga} = req.body;
+  db.query('INSERT INTO cart (id, name, price, quantity, totalHarga) VALUES (?, ?, ?, ?, ?)',
+      [id, name, price, quantity, totalHarga], (error) => {
+          if (error) {
+              console.error('Error creating product:', error);
+              response(500,"ERROR", "User can't get list", res);
+          } else {
+            response(200,"ok mantap", "User get list", res)
+          }
+      });
+});
+
+//METHOD PUT
+router.put('/product/:id', (req,res) => {
   const productId = req.params.id;
-  const {name, price , category, detail, rating,uuid} = req.body;
-  db.query('UPDATE product SET name = ?, price = ?, category = ?, detail= ?, rating = ?, uuid = ? WHERE id= ?',
-  [name, price , category, detail, rating,uuid, productId], (error) => {
+  const {name, price, category, detail, rating} = req.body;
+  db.query('UPDATE product SET name = ?, price = ?, category = ?, detail= ?, rating = ?  WHERE id= ?',
+  [name, price , category, detail, rating, productId], (error) => {
       if (error) {
           console.error('Error updating product:', error);
           res.status(500).json({message: 'Internal Server Error'});
@@ -69,13 +111,30 @@ router.put('product/:id', (req,res) => {
   })
 })
 
-
-router.put("/", (req, res) => {
-  res.send("Halaman Utama");
+//DELETE
+router.delete('/product/:id', (req, res) => {
+  const productid = req.params.id;
+  db.query('DELETE FROM product WHERE id = ?', [productid], (error) => {
+      if (error) {
+          console.error('Error deleting product:', error);
+          res.status(500).json({ message: 'Internal Server Error' });
+      } else {
+          res.json("Deleting product successfully");
+      }
+  });
 });
 
-router.delete("/user", (req, res) => {
-    res.send("User")
-})
+router.delete('/cart/:id', (req, res) => {
+  const productid = req.params.id;
+  db.query('DELETE FROM cart WHERE id = ?', [productid], (error) => {
+      if (error) {
+          console.error('Error deleting product:', error);
+          res.status(500).json({ message: 'Internal Server Error' });
+      } else {
+          res.json("Deleting product successfully");
+      }
+  });
+});
 
 module.exports = router;
+
