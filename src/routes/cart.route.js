@@ -3,28 +3,29 @@ const router = express.Router();
 const db = require("../connection/db");
 const response = require("../../respons");
 
-//END POINT CART
+const table = "cart";
+
 router.get("/", (req, res) => {
-  db.query("SELECT * FROM cart", (error, results) => {
+  db.query(`SELECT * FROM ${table}`, (error, results) => {
     if (error) {
-      console.error("Error fetching cart", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.error("Error fetching cart", error.message);
+      response(500, { message: "Internal Server Error" }, "Failed fetching data cart", res);
     } else {
-      res.json(results);
+      response(200, results, "Successfully Updating data cart", res);
     }
   });
 });
 
 router.get("/:id", (req, res) => {
   const cartId = req.params.id;
-  db.query("SELECT * FROM cart WHERE id = ?", [cartId], (error, results) => {
+  db.query(`SELECT * FROM ${table} WHERE id = ?`, [cartId], (error, results) => {
     if (error) {
-      console.error("Error fetching cart", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.error("Error fetching cart", error.message);
+      response(500, { message: "Internal Server Error" }, "Failed fetching data cart", res);
     } else if (results.length === 0) {
-      res.status(404).json({ message: "cart not found" });
+      response(404, { message: "cart not found" }, "Failed fetching data cart", res);
     } else {
-      res.json(results);
+      response(200, results, "Successfully Updating data cart", res);
     }
   });
 });
@@ -34,7 +35,7 @@ router.post("/:id", (req, res) => {
   const { id, name, price, quantity, totalHarga } = req.body;
   db.query("INSERT INTO cart (id, name, price, quantity, totalHarga) VALUES (?, ?, ?, ?, ?)", [id, name, price, quantity, totalHarga], (error) => {
     if (error) {
-      console.error("Error creating product:", error);
+      console.error("Error creating product:", error.message);
       response(500, "ERROR", "User can't get list", res);
     } else {
       response(200, "ok mantap", "User get list", res);
@@ -46,8 +47,8 @@ router.delete("/:id", (req, res) => {
   const productid = req.params.id;
   db.query("DELETE FROM cart WHERE id = ?", [productid], (error) => {
     if (error) {
-      console.error("Error deleting product:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.error("Error deleting product:", error.message);
+      response(500, { message: "Internal Server Error" }, "Failed deleting product", res);
     } else {
       res.json("Deleting product successfully");
     }
