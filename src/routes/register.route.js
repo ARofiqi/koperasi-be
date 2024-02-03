@@ -3,8 +3,8 @@ const router = express.Router();
 
 router.post("/", (req, res) => {
   try {
-    const { username, password } = req.body;
-    res.json({ username, password });
+    const { email, password, confirmPassword } = req.body;
+    res.json({ email, password, confirmPassword });
   } catch (error) {
     console.log(error);
   }

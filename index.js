@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const routes = require("./src/routes/index");
 const config = require("./src/config/config");
 const cors = require("cors");
+const PORT = config.port || 8000;
 
 app.use(bodyParser.json());
 
@@ -19,9 +19,20 @@ app.use(
   })
 );
 
-app.use("/api", routes);
+const cartRoute = require("./src/routes/cart.route");
+const productRoute = require("./src/routes/product.route");
+const homepageRoute = require("./src/routes/homepage.route");
+const loginRoute = require("./src/routes/login.route");
+const registerRoute = require("./src/routes/register.route");
+const userRoute = require("./src/routes/user.route");
 
-const PORT = config.port || 8000;
+app.use("/api/cart", cartRoute);
+app.use("/api/product", productRoute);
+app.use("/api/homepage", homepageRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/register", registerRoute);
+app.use("/api/user", userRoute);
 
 app.listen(PORT, () => {
   console.log(`Server listen in http://localhost:${PORT}`);
