@@ -11,4 +11,5 @@ module.exports = {
     dialect: process.env.DB_DIALECT,
     port: process.env.DB_PORT,
   },
+  secretKey: process.env.SECRET_KEY
 };
