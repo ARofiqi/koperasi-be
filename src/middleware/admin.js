@@ -1,4 +1,8 @@
+const config = require("../config/config");
 const jwt = require("jsonwebtoken");
+
+// Secret key untuk JWT, sebaiknya simpan di environment variable
+const secretKey = config.secretKey;
 
 function authenticateToken(req, res, next) {
   const token = req.header("Authorization");
