@@ -46,7 +46,15 @@ router.get("/inventory", (req, res) => {
       console.error("Error fetching produk", error.message);
       response(500, { message: "Internal Server Error" }, "Failed fetching data produk", res);
     } else {
-      response(200, results, "Successfully Updating data produk", res);
+      const page = parseInt(req.query.page) || 1;
+      const totalPages = Math.ceil(results.length / config.itemPerPage);
+
+      // console.log(results.length);
+      // console.log(`Page requested: ${page}`);
+      // console.log(`Page requested: ${typeof page}`);
+      // console.log(`Total Pages: ${totalPages}`);
+
+      response(200, results, "Successfully Updating data produk", res, page, totalPages, "/api/admin/inventory");
     }
   });
 });
