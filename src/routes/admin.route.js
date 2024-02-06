@@ -46,28 +46,48 @@ router.get("/inventory", (req, res) => {
       console.error("Error fetching produk", error.message);
       response(500, { message: "Internal Server Error" }, "Failed fetching data produk", res);
     } else {
-      const page = parseInt(req.query.page) || 1;
-      const totalPages = Math.ceil(results.length / config.itemPerPage);
+      // const page = parseInt(req.query.page) || 1;
+      // const totalPages = Math.ceil(results.length / config.itemPerPage);
+      // response(200, results, "Successfully Updating data produk", res, page, totalPages, "/api/admin/inventory");
 
-      // console.log(results.length);
-      // console.log(`Page requested: ${page}`);
-      // console.log(`Page requested: ${typeof page}`);
-      // console.log(`Total Pages: ${totalPages}`);
-
-      response(200, results, "Successfully Updating data produk", res, page, totalPages, "/api/admin/inventory");
+      response(200, results, "Successfully Updating data produk", res);
     }
   });
 });
 
 router.post("/inventory", (req, res) => {
-  const { name, price, category, detail } = req.body;
+  const { name, price, category, detail, quantity } = req.body;
   const rating = 0;
-  db.query(`INSERT INTO produk (name, price, category, detail) VALUES (?, ?, ?, ?, ?, ?)`, [name, price, category, detail, rating], (error) => {
+  db.query(`INSERT INTO produk (name, price, category, rating, quantity, detail) VALUES (?, ?, ?, ?, ?, ?)`, [name, price, category, rating, quantity, detail], (error) => {
     if (error) {
       console.error("Error creating product :", error.message);
       response(500, { message: "Internal Server Error" }, "Failed Adding data products", res);
     } else {
       response(200, { message: "ok mantap" }, "Successfully Adding data products", res);
+    }
+  });
+});
+
+router.put("/inventory", (req, res) => {
+  const { id, name, price, category, detail, quantity, rating } = req.body;
+  db.query(`UPDATE produk SET name = ?, price = ?, category = ?, detail = ?, rating = ?, quantity = ? WHERE id = ?`, [name, price, category, detail, rating, quantity, id], (error) => {
+    if (error) {
+      console.error("Error creating product :", error.message);
+      response(500, { message: "Internal Server Error" }, "Failed Adding data products", res);
+    } else {
+      response(200, { message: "ok mantap" }, "Successfully Adding data products", res);
+    }
+  });
+});
+
+router.delete("/inventory/:id", (req, res) => {
+  const id = req.params.id;
+  db.query(`DELETE FROM produk WHERE id = ?`, [id], (error) => {
+    if (error) {
+      console.error("Error deleting product :", error.message);
+      response(500, { message: "Internal Server Error" }, "Failed delete data products", res);
+    } else {
+      response(200, { message: "ok mantap" }, "Successfully delete data products", res);
     }
   });
 });

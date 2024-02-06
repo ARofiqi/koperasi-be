@@ -11,10 +11,12 @@ router.get("/", (req, res) => {
       console.error("Error fetching product", error.message);
       res.status(500).json({ message: "Internal Server Error" });
     } else {
-      response(200, results, "Succesfully fetching data products", res);
+      const page = parseInt(req.query.page) || 1;
+      const totalPages = Math.ceil(results.length / config.itemPerPage);
+
+      response(200, results, "Succesfully fetching data products", res, page, totalPages, "/api/admin/inventory");
     }
   });
 });
 
 module.exports = router;
-  

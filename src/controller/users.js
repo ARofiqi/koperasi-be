@@ -1,11 +1,10 @@
-const user = require("../database/user.js")
-const argon2 = require("argon2")
-
+const user = require("../database/user.js");
+const argon2 = require("argon2");
 
 export const getusers = async (req, res) => {
   try {
     const response = await user.findAll({
-      attributes: ['id', 'name', 'username', 'password'], // Sesuaikan dengan atribut yang sesuai di model user
+      attributes: ["id", "name", "username", "password"], // Sesuaikan dengan atribut yang sesuai di model user
     });
     res.status(200).json(response);
   } catch (error) {
@@ -16,7 +15,7 @@ export const getusers = async (req, res) => {
 export const getuserById = async (req, res) => {
   try {
     const response = await user.findOne({
-      attributes: ['id', 'name', 'username', 'password'], // Sesuaikan dengan atribut yang sesuai di model user
+      attributes: ["id", "name", "username", "password"], // Sesuaikan dengan atribut yang sesuai di model user
       where: {
         id: req.params.id,
       },
@@ -29,8 +28,7 @@ export const getuserById = async (req, res) => {
 
 export const createuser = async (req, res) => {
   const { name, username, password, confPassword } = req.body;
-  if (password !== confPassword)
-    return res.status(400).json({ msg: "Password dan Confirm Password tidak cocok" });
+  if (password !== confPassword) return res.status(400).json({ msg: "Password dan Confirm Password tidak cocok" });
   const hashPassword = await argon2.hash(password);
   try {
     await user.create({
@@ -58,8 +56,7 @@ export const updateuser = async (req, res) => {
   } else {
     hashPassword = await argon2.hash(password);
   }
-  if (password !== confPassword)
-    return res.status(400).json({ msg: "Password dan Confirm Password tidak cocok" });
+  if (password !== confPassword) return res.status(400).json({ msg: "Password dan Confirm Password tidak cocok" });
   try {
     await user.update(
       {
