@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../connection/db");
 const response = require("../../respons");
+const { authenticateToken } = require("../middleware/admin");
 
 const table = "produk";
 
@@ -11,12 +12,16 @@ router.get("/", (req, res) => {
       console.error("Error fetching product", error.message);
       res.status(500).json({ message: "Internal Server Error" });
     } else {
-      const page = parseInt(req.query.page) || 1;
-      const totalPages = Math.ceil(results.length / config.itemPerPage);
-
-      response(200, results, "Succesfully fetching data products", res, page, totalPages, "/api/admin/inventory");
+      response(200, results, "Succesfully fetching data products", res);
     }
   });
 });
+
+router.get("/auth", authenticateToken, (req, res) => {
+  res.json({ message: "Halaman User terproteksi" });
+});
+
+
+
 
 module.exports = router;
