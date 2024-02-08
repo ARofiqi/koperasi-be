@@ -25,7 +25,6 @@ const loginRoute = require("./src/routes/login.route");
 const registerRoute = require("./src/routes/register.route");
 const userRoute = require("./src/routes/user.route");
 const adminRoute = require("./src/routes/admin.route");
-const logoutRoute = require("./src/routes/logout.route");
 
 app.use("/api/cart", cartRoute);
 app.use("/api/product", productRoute);
@@ -34,7 +33,6 @@ app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
-app.use("/api/logout", logoutRoute);
 
 app.listen(PORT, () => {
   console.log(`Server listen in http://localhost:${PORT}`);

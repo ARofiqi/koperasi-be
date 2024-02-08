@@ -8,7 +8,7 @@ const db = require("../connection/db");
 router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
       return res.status(400).json({ message: "Email dan password diperlukan" });
     }

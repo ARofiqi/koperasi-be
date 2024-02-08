@@ -7,22 +7,37 @@ const { verifyToken } = require("../middleware/user");
 
 const table = "produk";
 
-router.get("/", verifyToken, (req, res) => {
-  db.query("SELECT * FROM user_account WHERE id = ?", [req.id], (error, results) => {
-    if (error) {
-      return res.status(500).json({ message: "Token tidak valid" });
-    }
-    if (results.length === 0) {
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const userData = await new Promise((resolve, reject) => {
+      db.query("SELECT * FROM user_account WHERE id = ?", [req.id], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      });
+    });
+
+    if (!userData) {
       return res.status(401).json({ message: "Akun Tidak Ditemukan" });
     }
-  });
-  db.query(`SELECT * FROM ${table}`, (error, results) => {
-    if (error) {
-      console.error("Error fetching product", error.message);
-      response(500, { message: "Internal Server Error" }, "Failed fetching data products", res);
-    }
-    response(200, results, "Succesfully fetching data products", res);
-  });
+
+    const productsData = await new Promise((resolve, reject) => {
+      db.query(`SELECT * FROM ${table}`, (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+
+    response(200, productsData, "Succesfully fetching data products", res);
+  } catch (error) {
+    console.error("Terjadi kesalahan:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 router.get("/auth", authenticateToken, (req, res) => {
