@@ -2,16 +2,15 @@ const express = require("express");
 const router = express.Router();
 const db = require("../connection/db");
 const response = require("../../respons");
-const verifyToken = require("../middleware/user");
+const { verifyToken } = require("../middleware/user");
 
-const table = "user";
-
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
-    const id = req.params.id;
-    const userResults = await queryPromise(`SELECT * FROM ${table} WHERE user_id = ?`, [id]);
+    const id = req.id;
+    const userResults = await queryPromise(`SELECT * FROM user WHERE account_id = ?`, [id]);
 
-    const mostProduct = userResults[0].mostProduct.split(",").map(Number);
+    // const mostProduct = userResults[0].mostProduct.split(",").map(Number);
+    const mostProduct = [1,2,3];
     const dataMostProduct = await Promise.all(mostProduct.map((e) => queryPromise(`SELECT * FROM produk WHERE id = ?`, [e])));
 
     userResults[0].mostProduct = dataMostProduct;

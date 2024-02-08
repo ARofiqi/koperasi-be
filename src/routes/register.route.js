@@ -30,13 +30,14 @@ router.post("/", async (req, res) => {
 
       const id = uuidv4();
       const name = email.split("@")[0];
+      const noTelephone = 0;
       const saldo = 0;
       const pemasukan = 0;
       const pengeluaran = 0;
-      const mostProduct = null;
+      const mostProduct = "";
       db.query(
-        "INSERT INTO user (id, name, email, noTelephone, saldo, pemasukan, pengeluaran, mostPorduct, account_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [id, name, email, saldo, pemasukan, pengeluaran, mostProduct, id_user_account],
+        "INSERT INTO user (id, name, email, noTelephone, saldo, pemasukan, pengeluaran, mostProduct, account_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [id, name, email, noTelephone, saldo, pemasukan, pengeluaran, mostProduct, id_user_account],
         (error, results) => {
           if (error) {
             console.log(error);
