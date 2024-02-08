@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const db = require("../connection/db");
 const response = require("../../respons");
+const verifyToken = require("../middleware/user");
 
 const table = "user";
 
-router.get("/:id", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const id = req.params.id;
     const userResults = await queryPromise(`SELECT * FROM ${table} WHERE user_id = ?`, [id]);

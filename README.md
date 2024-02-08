@@ -10,14 +10,16 @@ CREATE TABLE IF NOT EXISTS produk (
 
 -- Tabel user
 CREATE TABLE IF NOT EXISTS user (
-    user_id INT PRIMARY KEY,
+    id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     noTelephone VARCHAR(15) NOT NULL,
     saldo INT NOT NULL,
     pemasukan INT NOT NULL,
     pengeluaran INT NOT NULL,
-    mostProduct VARCHAR(255) 
+    mostProduct VARCHAR(255),
+    account_id VARCHAR(36),
+    FOREIGN KEY (account_id) REFERENCES user_account(id)
 );
 
 -- Kolom untuk menyimpan produk yang sering dibeli
@@ -32,10 +34,12 @@ VALUES (1, 'Abdurrahman', 'Abdurrahman12@gmail.com', '0812345678', 350000, 40000
 
 -- Membuat tabel cart
 CREATE TABLE IF NOT EXISTS cart (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id CHAR(36) PRIMARY KEY,
     user_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (product_id) REFERENCES produk(id)
 );
@@ -43,7 +47,7 @@ CREATE TABLE IF NOT EXISTS cart (
 
 CREATE TABLE user_account (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'user') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
