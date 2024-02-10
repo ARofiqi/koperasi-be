@@ -15,7 +15,8 @@ const db = require("../connection/db");
 // }
 
 function verifyToken(req, res, next) {
-  const token = req.headers["authorization"];
+  const token = req.headers["authorization"] || req.body.headers.Authorization;
+
   if (!token) return res.status(403).json({ message: "Token tidak ditemukan" });
 
   jwt.verify(token.split(" ")[1], config.secretKey, (err, decoded) => {

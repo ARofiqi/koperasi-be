@@ -1,25 +1,25 @@
 CREATE TABLE IF NOT EXISTS produk (
-    id INT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    price INT NOT NULL,
-    category VARCHAR(50),
-    detail TEXT,
-    rating INT,
-    quantity INT
+id INT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+price INT NOT NULL,
+category VARCHAR(50),
+detail TEXT,
+rating INT,
+quantity INT
 );
 
 -- Tabel user
 CREATE TABLE IF NOT EXISTS user (
-    id VARCHAR(36) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    noTelephone VARCHAR(15) NOT NULL,
-    saldo INT NOT NULL,
-    pemasukan INT NOT NULL,
-    pengeluaran INT NOT NULL,
-    mostProduct VARCHAR(255),
-    account_id VARCHAR(36),
-    FOREIGN KEY (account_id) REFERENCES user_account(id)
+id VARCHAR(36) PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+noTelephone VARCHAR(15) NOT NULL,
+saldo INT NOT NULL,
+pemasukan INT NOT NULL,
+pengeluaran INT NOT NULL,
+mostProduct VARCHAR(255),
+account_id VARCHAR(36),
+FOREIGN KEY (account_id) REFERENCES user_account(id)
 );
 
 -- Kolom untuk menyimpan produk yang sering dibeli
@@ -34,22 +34,21 @@ VALUES (1, 'Abdurrahman', 'Abdurrahman12@gmail.com', '0812345678', 350000, 40000
 
 -- Membuat tabel cart
 CREATE TABLE IF NOT EXISTS cart (
-    id CHAR(36) PRIMARY KEY,
-    user_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (product_id) REFERENCES produk(id)
+id VARCHAR(36) PRIMARY KEY,
+user_id VARCHAR(36) NOT NULL,
+product_id INT NOT NULL,
+quantity INT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES user(id),
+FOREIGN KEY (product_id) REFERENCES produk(id)
 );
 
-
 CREATE TABLE user_account (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+id INT AUTO_INCREMENT PRIMARY KEY,
+email VARCHAR(50) NOT NULL,
+password VARCHAR(255) NOT NULL,
+role ENUM('admin', 'user') NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

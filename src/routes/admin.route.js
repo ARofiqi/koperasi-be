@@ -16,7 +16,7 @@ router.post("/login", async (req, res) => {
   // Gantilah ini dengan validasi pengguna dari database
   //   const user = await User.findOne({ username });
 
-  if (User.password != password && User.username != username) {
+  if (User.password !== password && User.username !== username) {
     return res.status(401).json({ message: "Autentikasi gagal" });
   }
 
@@ -25,11 +25,15 @@ router.post("/login", async (req, res) => {
   res.json({ token });
 });
 
+router.get("/auth", authenticateToken, (req, res) => {
+  res.json({ message: "Halaman Admin terproteksi" });
+});
+
 router.get("/dashboard", authenticateToken, (req, res) => {
   res.json({ message: "Halaman Admin terproteksi" });
 });
 
-router.get("/user", (req, res) => {
+router.get("/user", authenticateToken, (req, res) => {
   db.query("SELECT * from user", (error, results) => {
     if (error) {
       console.error("Error fetching user", error.message);
