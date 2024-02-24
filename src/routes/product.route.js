@@ -46,6 +46,7 @@ router.post("/:id", (req, res) => {
   });
 });
 
+
 //METHOD PUT
 router.put("/:id", (req, res) => {
   const productId = req.params.id;
