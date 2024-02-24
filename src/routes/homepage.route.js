@@ -5,6 +5,22 @@ const response = require("../../respons");
 const { authenticateToken } = require("../middleware/admin");
 const { verifyToken } = require("../middleware/user");
 
+<<<<<<< HEAD
+const table = "product";
+
+router.get("/", (req, res) => {
+  db.query(
+    `SELECT id, name, price, category FROM ${table}`,
+    (error, results) => {
+      if (error) {
+        console.error("Error fetching product", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+      } else {
+        response(200, results, "Succesfully fetching data products", res);
+      }
+    }
+  );
+=======
 const table = "produk";
 
 router.get("/", verifyToken, async (req, res) => {
@@ -42,6 +58,7 @@ router.get("/", verifyToken, async (req, res) => {
 
 router.get("/auth", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Halaman User terproteksi" });
+>>>>>>> 9da5eea716e1e4d9efa97131a282be5226ca6fa2
 });
 
 module.exports = router;

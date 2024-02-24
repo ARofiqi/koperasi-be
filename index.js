@@ -3,11 +3,25 @@ const app = express();
 const bodyParser = require("body-parser");
 const config = require("./src/config/config");
 const cors = require("cors");
+<<<<<<< HEAD
+=======
 const PORT = config.port || 8000;
+>>>>>>> 9da5eea716e1e4d9efa97131a282be5226ca6fa2
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+<<<<<<< HEAD
+// Atau mengonfigurasi opsi cors kustom
+app.use(
+  cors({
+    origin: "https://vq8sj483-5173.asse.devtunnels.ms/",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
+=======
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -25,6 +39,7 @@ const loginRoute = require("./src/routes/login.route");
 const registerRoute = require("./src/routes/register.route");
 const userRoute = require("./src/routes/user.route");
 const adminRoute = require("./src/routes/admin.route");
+>>>>>>> 9da5eea716e1e4d9efa97131a282be5226ca6fa2
 
 app.use("/api/cart", cartRoute);
 app.use("/api/product", productRoute);
