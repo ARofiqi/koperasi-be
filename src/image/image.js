@@ -5,7 +5,7 @@ const fs = require('fs');
 const inputImagePath = 'src/image/IMG_20231010_132321.jpg';
 const outputImagePath = 'src/image/image.webp';
 
-// Fungsi untuk mengonversi gambar ke format WebP
+
 function convertToWebP(inputPath, outputPath) {
   sharp(inputPath)
     .webp() // Menggunakan format WebP
@@ -18,5 +18,4 @@ function convertToWebP(inputPath, outputPath) {
     });
 }
 
-// Panggil fungsi convertToWebP dengan path gambar input dan output
 convertToWebP(inputImagePath, outputImagePath);
