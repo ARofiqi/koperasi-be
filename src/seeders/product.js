@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const mysql = require("mysql");
+const data = require("../../public/dataProduct");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -8,33 +9,6 @@ const connection = mysql.createConnection({
   port: 3307,
   database: "koperasi",
 });
-
-const data = [
-  {
-    id: uuidv4(),
-    name: "PIZZA",
-    price: 10000,
-    category: "makanan",
-    detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, quo dolores! Sit alias quisquam culpa earum hic distinctio in ea nam tempora qui magni veniam a",
-    rating: 4.5,
-  },
-  {
-    id: uuidv4(),
-    name: "Kopi",
-    price: 2000,
-    category: "minuman",
-    detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, quo dolores! Sit alias quisquam culpa earum hic distinctio in ea nam tempora qui magni veniam a",
-    rating: 3,
-  },
-  {
-    id: uuidv4(),
-    name: "Mie Goreng",
-    price: 3000,
-    category: "makanan",
-    detail: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, quo dolores! Sit alias quisquam culpa earum hic distinctio in ea nam tempora qui magni veniam a",
-    rating: 5,
-  },
-];
 
 connection.connect((err) => {
   if (err) {
@@ -55,9 +29,9 @@ connection.connect((err) => {
   // Definisikan pernyataan SQL untuk membuat tabel
   const createTableProduct = `
         CREATE TABLE IF NOT EXISTS product (
-          id INT PRIMARY KEY,
-          nama VARCHAR(255),
-          umur INT
+          id VARCHAR(36) PRIMARY KEY, 
+          name VARCHAR(255) NOT NULL, 
+          price DECIMAL(10, 2) NOT NULL, 
         )
       `;
 
